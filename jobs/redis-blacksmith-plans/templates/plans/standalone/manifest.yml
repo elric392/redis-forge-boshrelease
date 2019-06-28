@@ -1,6 +1,8 @@
 ---
 meta:
   size: default
+  default:
+    azs: [z1]
   password: (( vault $CREDENTIALS "/redis/system:password" ))
 
 releases:
@@ -20,7 +22,7 @@ update:
 instance_groups:
   - name: standalone
     instances: 1
-    azs: [z1]
+    azs: (( grab meta.azs || meta.default.azs ))
     networks: [name: (( grab meta.net || 'redis-service' ))]
     stemcell: default
 
